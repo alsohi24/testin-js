@@ -7,9 +7,9 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-  if(b === 0){
+  if (b === 0) {
     return null;
   }
   return a / b;
 }
-module.exports = {sum, multiply, divide}
+module.exports = { sum, multiply, divide };
