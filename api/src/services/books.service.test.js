@@ -7,14 +7,12 @@ const fakeBooks = [
   },
 ];
 
-const spyGetAll = jest.fn();
+const mockSpyGetAll = jest.fn();
 
-const MongoLibStub = {
-  getAll: () => spyGetAll,
+jest.mock('../lib/mongo.lib', () => jest.fn().mockImplementation(() => ({
+  getAll: mockSpyGetAll,
   create: () => {},
-};
-
-jest.mock('../lib/mongo.lib', () => jest.fn().mockImplementation(() => MongoLibStub));
+})));
 
 describe('Test for getBooks', () => {
   let service;
@@ -26,20 +24,20 @@ describe('Test for getBooks', () => {
   describe('test for getBooks', () => {
     test('should reaturn a list book', async () => {
       // Arrage
-      spyGetAll.mockResolvedValue(fakeBooks);
+      mockSpyGetAll.mockResolvedValue(fakeBooks);
       // Act
       const books = await service.getBooks({});
       console.log(books);
       // Assert
       expect(books.length).toEqual(1);
-      expect(spyGetAll).toHaveBeenCalled();
-      expect(spyGetAll).toHaveBeenCalledTimes(1);
-      expect(spyGetAll).toHaveBeenCalledWith('books', {});
+      expect(mockSpyGetAll).toHaveBeenCalled();
+      expect(mockSpyGetAll).toHaveBeenCalledTimes(1);
+      expect(mockSpyGetAll).toHaveBeenCalledWith('books', {});
     });
 
     test('should reaturn a list book', async () => {
       // Arrage
-      spyGetAll.mockResolvedValue([{
+      mockSpyGetAll.mockResolvedValue([{
         _id: 1,
         name: 'Harry Potter 2',
       }]);
